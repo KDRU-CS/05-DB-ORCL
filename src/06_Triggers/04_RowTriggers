@@ -1,0 +1,19 @@
+-- Create a table
+CREATE TABLE Salary
+(
+    TeacherName NVARCHAR2(100),
+    TeacherSalary DECIMAL
+);
+
+CREATE TABLE CalculatedSalary
+(
+    TeacherName NVARCHAR2(100),
+    TeacherSalary DECIMAL
+);
+
+-- Trigger
+CREATE OR REPLACE TRIGGER order_insert BEFORE INSERT ON Salary FOR EACH ROW
+BEGIN
+    INSERT INTO CalculatedSalary(TeacherName, TeacherSalary)
+      VALUES (:new.TeacherName, (:new.TeacherSalary - :new.TeacherSalary * 0.1));
+END;
